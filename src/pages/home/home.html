@@ -1,0 +1,19 @@
+<ion-header>
+    <ion-navbar>
+    <ion-title>店员核销记录</ion-title>
+    </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+    <ion-refresher (ionRefresh)="refreshTheCouponList($event)">
+        <ion-refresher-content 
+        pullingIcon="arrow-dropdown"
+        pullingText="释放开始刷新"
+        refreshingSpinner="circles"
+        refreshingText="正在刷新..."></ion-refresher-content>
+    </ion-refresher>
+    <ion-list>
+        <ion-item *ngFor="let item of list">
+        </ion-item>
+    </ion-list>
+</ion-content>

@@ -1,0 +1,26 @@
+<ion-header>
+    <ion-navbar>
+        <ion-title>账号设置</ion-title>
+    </ion-navbar>
+</ion-header>
+
+<ion-content>
+    <ion-list *ngIf="!account">
+        <ion-item>
+            <ion-label fixed>Username</ion-label>
+            <ion-input type="text" [(ngModel)]="accountName"></ion-input>
+        </ion-item>
+        <ion-item>
+            <ion-label fixed>Password</ion-label>
+            <ion-input type="password" [(ngModel)]="accountPassword"></ion-input>
+        </ion-item>
+        <ion-item>
+            <button ion-button color="light" outline (click)="signIn()">登录</button>
+        </ion-item>
+    </ion-list>
+    <ion-list *ngIf="account">
+        <ion-item>
+            <ion-label>{{account.accountName}}</ion-label>
+        </ion-item>
+    </ion-list>
+</ion-content>
