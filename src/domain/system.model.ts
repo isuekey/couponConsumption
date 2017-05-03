@@ -53,6 +53,7 @@ export class Location{
     latitude:number;
 }
 export class Consumption{
+    id:number;
     location:Location;
     clerk:AccountInfo;
     couponInstance:CouponInfo

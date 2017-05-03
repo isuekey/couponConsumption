@@ -33,6 +33,8 @@ export class HomePage {
             return;
         }
         this.httpManager.getWritenOffConsumptionOfTheClerk(accountInfo, (success)=>{
+            this.couponWrittenOffList.length = 0;
+            Array.prototype.push.apply(this.couponWrittenOffList, success);
             this.stopRefresh();
         }, (error)=>{
             this.stopRefresh();
