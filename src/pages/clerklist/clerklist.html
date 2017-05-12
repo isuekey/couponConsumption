@@ -1,0 +1,32 @@
+
+<ion-header>
+
+    <ion-navbar>
+    <ion-title>店员列表</ion-title>
+    </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+    <ion-list>
+        <ion-item *ngFor="let clerkItem of clerkList">
+            <label>{{clerkItem.account}}</label>
+            <label>{{clerkItem.accountName}}</label>
+            <label>shop: {{clerkItem.shop}}</label>
+            <label>id:{{clerkItem.id}}</label>
+        </ion-item>
+    </ion-list>
+    <ion-item>
+        <button ion-button outline (click)="wantToAddNewClerk()">增加店员</button>
+    </ion-item>
+    <ion-list *ngIf="beginToAddNewClerk">
+        <ion-item>
+            <ion-label>店员账号:</ion-label>
+            <ion-input type="text" [(ngModel)]="newClerk.account"></ion-input>
+        </ion-item>
+        <ion-item>
+            <button ion-button outline (click)="addNewClerk()">添加</button>
+        </ion-item>
+    </ion-list>
+</ion-content>

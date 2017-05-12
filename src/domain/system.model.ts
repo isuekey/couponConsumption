@@ -23,11 +23,56 @@ export class AccountInfo {
         }
     }
 
+    public static removeLocalAccount():void{
+        localStorage.removeItem("account");
+    }
+
 }
+
+export class TokenInfo{
+    token_type:string;
+    access_token: string;
+    expires_in: number;
+    refresh_token: string;
+
+    public static getLocalToken(): TokenInfo{
+        let tokenString = localStorage.getItem("token");
+        if(tokenString){
+            return JSON.parse(tokenString);
+        }
+    }
+
+    public static saveLocalToken(tokenInfo: TokenInfo): void{
+        if(tokenInfo){
+            let infoString = JSON.stringify(tokenInfo);
+            localStorage.setItem("token", infoString);
+        };
+    }
+
+    public static removeLocalToken():void{
+        localStorage.removeItem("token");
+    }
+};
+
+export class ClerkInfo {
+    id: number;
+    parent:number;
+    account: string;
+    accountName: string;
+    status: string;
+    relationType: string;
+    shop:number;
+}
+
 export class CouponTemplate{
     id:number;
     name:string;
     data:CouponData;
+    strategyId:number;
+    shopId:number;
+    status:string;
+    origin:string;
+    publish:number;
 }
 export class Brand{
     id:number;

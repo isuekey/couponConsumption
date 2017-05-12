@@ -1,11 +1,11 @@
 <ion-header>
     <ion-navbar>
-    <ion-title>店员核销记录</ion-title>
+    <ion-title>管理我的店面</ion-title>
     </ion-navbar>
 </ion-header>
 
 <ion-content padding>
-    <ion-refresher (ionRefresh)="refreshTheCouponList($event)">
+    <ion-refresher (ionRefresh)="refreshMyShop($event)">
         <ion-refresher-content 
         pullingIcon="arrow-dropdown"
         pullingText="释放开始刷新"
@@ -13,13 +13,15 @@
         refreshingText="正在刷新..."></ion-refresher-content>
     </ion-refresher>
     <ion-list>
-        <ion-item *ngFor="let consumption of couponWrittenOffList">
+        <ion-item *ngFor="let shopItem of myShopList">
             <label>
-            {{consumption.couponInstance.data.name}}
+            {{shopItem.name}}
             </label>
             <label>
-                id:{{consumption.couponInstance.id}}
+                id:{{shopItem.id}}
             </label>
+            <button ion-button outline (click)="manageCouponTemplate(shopItem)">管理优惠券</button>
+            <button ion-button outline (click)="manageClerk(shopItem)">管理店员</button>
         </ion-item>
     </ion-list>
 </ion-content>

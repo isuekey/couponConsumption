@@ -9,6 +9,8 @@ import { ContactPage } from '../pages/contact/contact';
 import { HomePage } from '../pages/home/home';
 import { TabsPage } from '../pages/tabs/tabs';
 import { MePage } from '../pages/me/me';
+import { ClerklistComponent } from "../pages/clerklist/clerklist";
+import { TemplatelistComponent } from "../pages/templatelist/templatelist";
 import { Writeoff } from "../pages/writeoff/writeoff";
 import { HttpManager } from "../manager/httpmanager";
 
@@ -23,7 +25,8 @@ import { SplashScreen } from '@ionic-native/splash-screen';
     HomePage,
     MePage,
     Writeoff,
-    TabsPage
+    TabsPage,
+    ClerklistComponent,TemplatelistComponent
     ],
     imports: [
     BrowserModule,
@@ -38,7 +41,8 @@ import { SplashScreen } from '@ionic-native/splash-screen';
     HomePage,
     MePage,
     Writeoff,
-    TabsPage
+    TabsPage,
+    ClerklistComponent,TemplatelistComponent
     ],
     providers: [
     StatusBar,

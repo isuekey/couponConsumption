@@ -15,12 +15,15 @@
             <ion-input type="password" [(ngModel)]="accountPassword"></ion-input>
         </ion-item>
         <ion-item>
-            <button ion-button color="light" outline (click)="signIn()">登录</button>
+            <button ion-button outline (click)="signIn()">登录</button>
         </ion-item>
     </ion-list>
     <ion-list *ngIf="account">
         <ion-item>
             <ion-label>{{account.accountName}}</ion-label>
+        </ion-item>
+        <ion-item>
+            <button ion-button outline (click)="logOut()">退出</button>
         </ion-item>
     </ion-list>
 </ion-content>

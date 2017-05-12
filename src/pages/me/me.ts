@@ -27,11 +27,22 @@ export class MePage {
         let loading = this.loadingControler.create();
         loading.present();
         this.httpManager.loginAccount(this.accountName, this.accountPassword, (success)=>{
-            this.account = success.account as AccountInfo;
-            AccountInfo.saveLocalAccount(this.account);
             this.dissmissLoading(loading);
+            this.getAccountInfo();
         }, (error)=>{
             this.dissmissLoading(loading);
+        });
+    }
+
+    getAccountInfo(){
+        this.httpManager.getAccountInfo((success)=>{
+            this.account = AccountInfo.getLocalAccount();
+        });
+    }
+
+    logOut(){
+        this.httpManager.logoutAccount((success)=>{
+            this.account = undefined;
         });
     }
 
