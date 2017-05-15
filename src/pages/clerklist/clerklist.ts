@@ -30,6 +30,7 @@ export class ClerklistComponent {
     }
     queryMyShopList(){
         this.httpManager.queryClerkListOfTheShop(this.shopId, (success)=>{
+            this.clerkList.length = 0;
             Array.prototype.push.apply(this.clerkList, success);
         });
     } 

@@ -12,9 +12,13 @@
     <ion-list>
         <ion-item *ngFor="let templateItem of templateList">
             <label>{{templateItem.name}}</label>
-            <label>{{templateItem.beginTime}}</label>
-            <label>{{templateItem.endTime}}</label>
-            <label>{{templateItem.publish}}</label>
+            <p>
+                <label>{{templateItem.beginTime}}</label>
+                <label>{{templateItem.endTime}}</label>
+            </p>
+            <p *ngIf="templateItem.publish < 1000">
+                <button ion-button outline (click)="preparePublishingTemplate(templateItem)">准备发布</button>
+            </p>
         </ion-item>
     </ion-list>
     <ion-item>
@@ -22,9 +26,48 @@
     </ion-item>
     <ion-list *ngIf="beginToAddNewTemplate">
         <ion-item>
-            <ion-label>优惠券描述:</ion-label>
+            <ion-label>选择优惠策略</ion-label>
+            <ion-select [(ngModel)]="newTemplate.strategyId" interface="popover" (ionChange)="onChangeAccess(newTemplate.strategyId)" >
+                <ion-option value="{{accessItem.strategy.id}}"  *ngFor="let accessItem of accessList">{{accessItem.strategy.strategyName}}</ion-option>
+            </ion-select>
+        </ion-item>
+        <ion-item *ngIf="newTemplate.strategyId">
+            <ion-label>简称:</ion-label>
             <ion-input type="text" [(ngModel)]="newTemplate.name"></ion-input>
+        </ion-item>
+        <ion-item *ngIf="newTemplate.strategyId">
+            <ion-label>标题:</ion-label>
+            <ion-input type="text" [(ngModel)]="newTemplate.data.title"></ion-input>
+        </ion-item>
+        <ion-item *ngIf="newTemplate.strategyId">
+            <ion-label>描述:</ion-label>
+            <ion-input type="text" [(ngModel)]="newTemplate.data.desc"></ion-input>
+        </ion-item>
+        <ion-item *ngIf="newTemplate.strategyId">
+            <ion-label>抵用:</ion-label>
+            <ion-input type="number" [(ngModel)]="newTemplate.data.offset"></ion-input>
+        </ion-item>
+        <ion-item *ngIf="newTemplate.strategyId">
+            <ion-label>条件（消费满）:</ion-label>
+            <ion-input type="number" [(ngModel)]="newTemplate.data.consumption"></ion-input>
+        </ion-item>
+        <ion-item>
+            <ion-label>最大数量:</ion-label>
+            <ion-input type="text" [(ngModel)]="newTemplate.maxcount"></ion-input>
+        </ion-item>
+        <ion-item>
+            <ion-label>开始时间:</ion-label>
+            <ion-datetime displayFormat="YYYY-MM-DD" [(ngModel)]="newTemplate.beginTime"></ion-datetime>
+        </ion-item>
+        <ion-item>
+            <ion-label>结束时间:</ion-label>
+            <ion-datetime displayFormat="YYYY-MM-DD" [(ngModel)]="newTemplate.endTime"></ion-datetime>
+        </ion-item>
+        <ion-item>
+            <button ion-button outline (click)="addNewTemplate()">制作优惠券</button>
         </ion-item>
     </ion-list>
 
 </ion-content>
+
+

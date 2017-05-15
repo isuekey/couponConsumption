@@ -3,12 +3,15 @@ import { Http,RequestOptions, Headers, RequestMethod } from '@angular/http';
 import { Events } from 'ionic-angular';
 
 import { Base64} from './util';
-import { CouponInfo, AccountInfo, Location, Consumption, CouponTemplateInstance, TokenInfo, ClerkInfo } from "../domain/system.model";
+import { AccountInfo, TokenInfo, ClerkInfo, Strategy, StrategyAccess, CouponData,
+ Consumption, CouponInfo, CouponTemplate } from "../domain/system.model";
 
 
 // export const hostBase = 'http://localhost:10010';
 // export const hostBase = 'http://192.168.31.104:10010';
-export const hostBase = 'http://192.168.1.102:10010';
+// export const hostBase = 'http://192.168.1.102:10010';
+export const hostBase = 'http://192.168.2.104:12000';
+// export const hostBase = 'http://192.168.2.105:10010';
 export const token = "d819c1b1b73e64f53e0375d0503fa89c5a5d9101";
 
 @Injectable()
@@ -132,44 +135,96 @@ export class HttpManager {
         });
     };
 
+    queryStrategyAccessOfTheShop(shopId:number, successFunc?:((success)=> void),errorFunc?:((error)=>void)){
+        let url = `${hostBase}/ninecoupon/shop/${shopId}/strategy/list`;
+        let headers = new Headers();
+        let tokenInfo = TokenInfo.getLocalToken();
+        headers.append("Authorization", `Bearer ${tokenInfo && tokenInfo.access_token || token}`);
+        return this.http.get(url, {headers}).subscribe((suc)=>{
+            let accessList = suc.json().map((ele)=>{
+                let accessItem = new StrategyAccess();
+                accessItem.id = ele.access_id;
+                accessItem.strategyId = ele.strategy_id;
+                accessItem.shopId = ele.shop_id;
+                accessItem.status = ele.access_status;
+                let strategy = new Strategy();
+                accessItem.strategy = strategy;
+                strategy.id = ele.strategy_id;
+                strategy.strategyName = ele.strategy_name;
+                strategy.status = ele.strategy_status;
+                strategy.origin = ele.origin;
+                let data = ele.data as CouponData;
+                strategy.data = data;
+                return accessItem;
+            });
+            successFunc && successFunc(accessList);
+        }, (error)=>{
+            this.errorHandler(error, errorFunc);
+        });
+    };
 
-
-
-
-
-
-
-    writeOffTheCoupon(couponInfo:CouponInfo, accountInfo:AccountInfo, successFunc?:((success) => void), errorFunc?:((error)=>void)){
-        let url = `${hostBase}/coupon/instance/writeoff/${couponInfo.id}`;
-        let consumption = new Consumption();
-        consumption.clerk = accountInfo;
-        consumption.couponInstance = couponInfo;
-        console.log(`start to write off: ${url}`);
-        console.log(`put data: ${ JSON.stringify(consumption)}`);
-        this.http.put(url, consumption).subscribe((success)=>{
+    addNewTemplate(templateInfo:CouponTemplate, successFunc?:((success) => void), errorFunc?:((error)=>void)){
+        let url = `${hostBase}/ninecoupon/template/create`;
+        let headers = new Headers();
+        let tokenInfo = TokenInfo.getLocalToken();
+        headers.append("Authorization", `Bearer ${tokenInfo && tokenInfo.access_token || token}`);
+        this.http.post(url, templateInfo, {headers}).subscribe((success)=>{
             successFunc && successFunc(success.json());
-            console.log(success);
         }, (error) => {
             this.errorHandler(error, errorFunc);
         });
     };
 
-    getWritenOffConsumptionOfTheClerk(accountInfo:AccountInfo, successFunc?:((success) => void), errorFunc?:((error)=>void)){
-        let url = `${hostBase}/coupon/instance/${accountInfo.id}/writeoff`;
-        this.http.get(url).subscribe((success)=>{
+    publishTemplate(templateId:number, successFunc?:((success) => void), errorFunc?:((error)=>void)){
+        let url = `${hostBase}/ninecoupon/template/${templateId}/publish`;
+        let headers = new Headers();
+        let tokenInfo = TokenInfo.getLocalToken();
+        headers.append("Authorization", `Bearer ${tokenInfo && tokenInfo.access_token || token}`);
+        this.http.put(url, {}, {headers}).subscribe((success)=>{
             successFunc && successFunc(success.json());
         }, (error) => {
             this.errorHandler(error, errorFunc);
         });
     };
 
-    generateCouponInstance(accountInfo:AccountInfo, couponTemplate:CouponTemplateInstance, successFunc?:((success) => void), errorFunc?:((error)=>void)){
-        let url = `${hostBase}/coupon/instance`;
-        this.http.post(url, couponTemplate).subscribe((success)=>{
-            successFunc && successFunc(success.json())
+    queryMyShopWorkList(successFunc?:((success) => void), errorFunc?:((error)=>void)){
+        let url = `${hostBase}/ninecoupon/shop/work/list`;
+        let headers = new Headers();
+        let tokenInfo = TokenInfo.getLocalToken();
+        headers.append("Authorization", `Bearer ${tokenInfo && tokenInfo.access_token || token}`);
+        this.http.get(url, {headers}).subscribe((success)=>{
+            successFunc && successFunc(success.json());
         }, (error) => {
             this.errorHandler(error, errorFunc);
         });
     };
+
+    queryMyWriteOffConsumption(shopId:number, successFunc?:((success) => void), errorFunc?:((error)=>void)){
+        let url = `${hostBase}/consumption/shop/${shopId}/writeoff/list`;
+        let headers = new Headers();
+        let tokenInfo = TokenInfo.getLocalToken();
+        headers.append("Authorization", `Bearer ${tokenInfo && tokenInfo.access_token || token}`);
+        this.http.get(url, {headers}).subscribe((success)=>{
+            successFunc && successFunc(success.json());
+        }, (error) => {
+            this.errorHandler(error, errorFunc);
+        });
+    };
+
+    writeOffTheCoupon(couponInfo:CouponInfo,  successFunc?:((success) => void), errorFunc?:((error)=>void)){
+        let url = `${hostBase}/consumption/writeoff/coupon`;
+        let headers = new Headers();
+        let tokenInfo = TokenInfo.getLocalToken();
+        headers.append("Authorization", `Bearer ${tokenInfo && tokenInfo.access_token || token}`);
+        this.http.post(url, couponInfo, {headers}).subscribe((success)=>{
+            successFunc && successFunc(success.json());
+        }, (error) => {
+            this.errorHandler(error, errorFunc);
+        });
+    };
+
+
+
+
 
 }

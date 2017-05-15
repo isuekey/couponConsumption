@@ -11,7 +11,8 @@ import { TabsPage } from '../pages/tabs/tabs';
 import { MePage } from '../pages/me/me';
 import { ClerklistComponent } from "../pages/clerklist/clerklist";
 import { TemplatelistComponent } from "../pages/templatelist/templatelist";
-import { Writeoff } from "../pages/writeoff/writeoff";
+import { ShopWorkComponent } from "../pages/shopwork/shopwork";
+import { WriteoffComponent } from "../pages/writeoff/writeoff";
 import { HttpManager } from "../manager/httpmanager";
 
 import { StatusBar } from '@ionic-native/status-bar';
@@ -24,7 +25,7 @@ import { SplashScreen } from '@ionic-native/splash-screen';
     ContactPage,
     HomePage,
     MePage,
-    Writeoff,
+    ShopWorkComponent,WriteoffComponent,
     TabsPage,
     ClerklistComponent,TemplatelistComponent
     ],
@@ -40,7 +41,7 @@ import { SplashScreen } from '@ionic-native/splash-screen';
     ContactPage,
     HomePage,
     MePage,
-    Writeoff,
+    ShopWorkComponent,WriteoffComponent,
     TabsPage,
     ClerklistComponent,TemplatelistComponent
     ],
