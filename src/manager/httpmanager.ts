@@ -8,9 +8,10 @@ import { AccountInfo, TokenInfo, ClerkInfo, Strategy, StrategyAccess, CouponData
 
 
 // export const hostBase = 'http://localhost:10010';
-// export const hostBase = 'http://192.168.31.104:10010';
+export const hostBase = 'http://139.162.82.31';
 // export const hostBase = 'http://192.168.1.102:10010';
-export const hostBase = 'http://192.168.2.104:12000';
+// export const hostBase = 'http://192.168.1.102:12000';
+// export const hostBase = 'http://192.168.2.104:12000';
 // export const hostBase = 'http://192.168.2.105:10010';
 export const token = "d819c1b1b73e64f53e0375d0503fa89c5a5d9101";
 
@@ -28,7 +29,7 @@ export class HttpManager {
         let url = `${hostBase}/oauth/token`;
         var headers = new Headers();
         headers.append("Content-Type", "application/x-www-form-urlencoded");
-        headers.append("Authorization", "Basic bmluZWNvdXBvbkFkbWluOmM5NjU0MTk5MzY2OTg1");
+        headers.append("Authorization", "Basic bmluZWNvdXBvbkNvbnN1bXB0aW9uOjEzODI3YmI2NmNmNGJh");
         let login = [["grant_type","password"],["username", accountName],["password", accountPassword]].map(ele=>ele.join("=")).join("&");
         console.log(login);
         return this.http.post(url, login, {
@@ -53,7 +54,7 @@ export class HttpManager {
         let url = `${hostBase}/oauth/token`;
         var headers = new Headers();
         headers.append("Content-Type", "application/x-www-form-urlencoded");
-        headers.append("Authorization", "Basic bmluZWNvdXBvbkFkbWluOmM5NjU0MTk5MzY2OTg1");
+        headers.append("Authorization", "Basic bmluZWNvdXBvbkNvbnN1bXB0aW9uOjEzODI3YmI2NmNmNGJh");
         let tokenInfo = TokenInfo.getLocalToken();
         let refresh = [
             ["grant_type","refresh_token"],

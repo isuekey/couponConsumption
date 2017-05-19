@@ -41,12 +41,13 @@ export class WriteoffComponent {
         });
     };
 
-    showAlertError(){
-        let alert = this.alertController.create({
+    showAlertError(alertInfo?:{title?:string, subTitle:string, buttons:string[]}){
+        let defaultInfo = {
             title: '提示',
             subTitle: "这不是本店的优惠券",
             buttons: ["确定"]
-        });
+        };
+        let alert = this.alertController.create(alertInfo || defaultInfo);
         alert.present();
     };
 
@@ -56,15 +57,25 @@ export class WriteoffComponent {
             let couponInstance =  data as CouponInfo;
             let loading = this.loadingController.create();
             loading.present();
-            if(data.shopid != this.shopInfo.id){
+            if(data.shopId != this.shopInfo.id){
                 this.showAlertError();
                 this.dissmissLoading(loading);
+                this.codeResult = JSON.stringify(code);
                 return;
             }
             this.httpManager.writeOffTheCoupon(couponInstance, (success)=>{
-                console.log(`write off success: ${ JSON.stringify(success)}`);
                 this.dissmissLoading(loading);
-                this.queryMyConsumptionList();
+                if(success.code){
+                    this.codeResult = JSON.stringify(success);
+                    this.showAlertError({
+                        title:"提示",
+                        subTitle:`${success.code} ${success.message}`,
+                        buttons:["确定"]
+                    });
+                }else{
+                    this.codeResult = "";
+                    this.queryMyConsumptionList();
+                }
             }, (error)=>{
                 console.log(`write off error: ${ JSON.stringify(error)}`);
                 this.dissmissLoading(loading);

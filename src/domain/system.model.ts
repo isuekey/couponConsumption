@@ -104,13 +104,18 @@ export class StrategyAccess{
 }
 
 export class CouponInfo{
+    id:number;
+    name:string;
     data:CouponData;
-    desc:string;
-    id: number;
-    instanceId:number;
-    price:string;
+    account:string;
+    status:string;
+    templateId: number;
     shopId: number;
-    consumer: string;
+    shopName: string;
+    shopAddress: string;
+    origin: string;
+    created_at: string;
+    updated_at: string;
 }
 
 export class Consumption{
