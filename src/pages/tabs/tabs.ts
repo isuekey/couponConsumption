@@ -22,6 +22,4 @@ export class TabsPage {
     constructor() {
         this.accountInfo = AccountInfo.getLocalAccount();
     }
-    ionViewDidEnter(){
-    }
 }

@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
-import { Http,RequestOptions, Headers, RequestMethod } from '@angular/http';
+import { Http,RequestOptions, Headers, RequestMethod, Response } from '@angular/http';
 import { Events } from 'ionic-angular';
 
 import { Base64} from './util';
 import { AccountInfo, TokenInfo, ClerkInfo, Strategy, StrategyAccess, CouponData,
- Consumption, CouponInfo, CouponTemplate } from "../domain/system.model";
+ Consumption, CouponInfo, CouponTemplate, EVENT_CONSTANTS } from "../domain/system.model";
 
 
 // export const hostBase = 'http://localhost:10010';
@@ -17,13 +17,31 @@ export const token = "d819c1b1b73e64f53e0375d0503fa89c5a5d9101";
 
 @Injectable()
 export class HttpManager {
-    constructor(private http:Http){
+    constructor(private http:Http, private events: Events){
     };
 
-    errorHandler = function errorHandler(error, errorFunc?:(error)=>void){
+    private errorHandler(error, errorFunc?:(error)=>void, successFunc?:((suc)=>void)){
         console.log(error);
-        errorFunc && errorFunc(error.json());
+        if(error.url && error.status == 401){
+            if(error.url.endsWith("/oauth/token")){
+                this.events.publish(EVENT_CONSTANTS.ACCOUNT_NEED_LOGIN);
+                return;
+            }else{
+                let tokenInfo = TokenInfo.getLocalToken();
+                if(tokenInfo){
+                    this.refreshToken(this.errorHandler);
+                }
+            }
+        }
+        errorFunc && errorFunc(error);
     };
+
+    private tokenHandler(response:Response, successFunc?:((success) => void)){
+        let tokenInfo:TokenInfo = response.json();
+        TokenInfo.saveLocalToken(tokenInfo);
+        this.events.publish(EVENT_CONSTANTS.TOKEN_REFRESH_SUCCESS);
+        successFunc && successFunc(tokenInfo);
+    }
 
     loginAccount(accountName:string, accountPassword:string, successFunc?:((success) => void), errorFunc?:((error)=>void)){
         let url = `${hostBase}/oauth/token`;
@@ -35,10 +53,8 @@ export class HttpManager {
         return this.http.post(url, login, {
             method: RequestMethod.Post,
             headers: headers
-        }).subscribe((success) => {
-            let tokenInfo:TokenInfo = success.json();
-            TokenInfo.saveLocalToken(tokenInfo);
-            successFunc && successFunc(tokenInfo);
+        }).subscribe((success)=>{
+            this.tokenHandler(success, successFunc);
         }, (error) => {
             this.errorHandler(error, errorFunc);
         })
@@ -50,7 +66,7 @@ export class HttpManager {
         successFunc && successFunc(undefined);
     }
 
-    refreshToken(successFunc?:((suc)=>void), errorFunc?:((err)=>void)){
+    private refreshToken(errorFunc?:((err)=>void)){
         let url = `${hostBase}/oauth/token`;
         var headers = new Headers();
         headers.append("Content-Type", "application/x-www-form-urlencoded");
@@ -63,9 +79,7 @@ export class HttpManager {
 
         return this.http.post(url, refresh, {
             headers: headers
-        }).subscribe((suc)=>{
-            successFunc && successFunc(suc);
-        }, (err)=>{
+        }).subscribe(this.tokenHandler , (err)=>{
             this.errorHandler(err, errorFunc);
         })
     };
@@ -81,7 +95,7 @@ export class HttpManager {
             AccountInfo.saveLocalAccount(accountInfo);
             successFunc && successFunc(accountInfo);
         }, (error)=>{
-            this.errorHandler(error, errorFunc);            
+            this.errorHandler(error, errorFunc);        
         });
     }
 

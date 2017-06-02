@@ -128,5 +128,10 @@ export class Consumption{
     updated_at:string;
 }
 
+export const EVENT_CONSTANTS = {
+    TOKEN_REFRESH_SUCCESS : "TOKEN_REFRESH_SUCCESS",
+    TOKEN_REFRESH_FAIL : "TOKEN_REFRESH_FAIL",
+    ACCOUNT_NEED_LOGIN: "ACCOUNT_NEED_LOGIN"
+}
 
 
