@@ -1,0 +1,16 @@
+<!-- Generated template for the Login component -->
+<ion-content>
+    <ion-list>
+        <ion-item>
+            <ion-label fixed>Username</ion-label>
+            <ion-input type="text" [(ngModel)]="accountName"></ion-input>
+        </ion-item>
+        <ion-item>
+            <ion-label fixed>Password</ion-label>
+            <ion-input type="password" [(ngModel)]="accountPassword"></ion-input>
+        </ion-item>
+        <ion-item>
+            <button ion-button outline (click)="signIn()">登录</button>
+        </ion-item>
+    </ion-list>
+</ion-content>

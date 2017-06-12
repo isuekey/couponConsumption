@@ -4,6 +4,8 @@ import { BrowserModule } from '@angular/platform-browser';
 import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
 import { MyApp } from './app.component';
 
+import { LoginComponent } from "../components/login/login";
+
 import { AboutPage } from '../pages/about/about';
 import { ContactPage } from '../pages/contact/contact';
 import { HomePage } from '../pages/home/home';
@@ -13,6 +15,7 @@ import { ClerklistComponent } from "../pages/clerklist/clerklist";
 import { TemplatelistComponent } from "../pages/templatelist/templatelist";
 import { ShopWorkComponent } from "../pages/shopwork/shopwork";
 import { WriteoffComponent } from "../pages/writeoff/writeoff";
+
 import { HttpManager } from "../manager/httpmanager";
 
 import { StatusBar } from '@ionic-native/status-bar';
@@ -27,7 +30,8 @@ import { SplashScreen } from '@ionic-native/splash-screen';
     MePage,
     ShopWorkComponent,WriteoffComponent,
     TabsPage,
-    ClerklistComponent,TemplatelistComponent
+    ClerklistComponent,TemplatelistComponent,
+    LoginComponent
     ],
     imports: [
     BrowserModule,
@@ -43,7 +47,8 @@ import { SplashScreen } from '@ionic-native/splash-screen';
     MePage,
     ShopWorkComponent,WriteoffComponent,
     TabsPage,
-    ClerklistComponent,TemplatelistComponent
+    ClerklistComponent,TemplatelistComponent,
+    LoginComponent
     ],
     providers: [
     StatusBar,
