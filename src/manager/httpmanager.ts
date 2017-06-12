@@ -8,8 +8,8 @@ import { AccountInfo, TokenInfo, ClerkInfo, Strategy, StrategyAccess, CouponData
 
 
 // export const hostBase = 'http://localhost:10010';
-export const hostBase = 'http://localhost:12000';
-// export const hostBase = 'http://139.162.82.31';
+// export const hostBase = 'http://localhost:12000';
+export const hostBase = 'http://139.162.82.31';
 // export const hostBase = 'http://192.168.1.102:10010';
 // export const hostBase = 'http://192.168.1.102:12000';
 // export const hostBase = 'http://192.168.2.104:12000';
